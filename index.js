@@ -2,7 +2,7 @@ pry = require('pryjs');
 var request = require('request');
 const cheerio = require('cheerio');
 const { RTMClient } = require('@slack/client');
-const token = 'xoxb-357272516532-qq1TaIqjaZ1fcsUpQuvx9D4b'
+const token = 'xoxb-357272516532-xADG2MDYUAeGcJgw1ym3B3N8'
 
 const rtm = new RTMClient(token);
 rtm.start();
@@ -20,7 +20,10 @@ var title_news;
 
 var schedule = require('node-schedule');
 
-var j = schedule.scheduleJob('42 * * * *', function(){
+var rule = new schedule.RecurrenceRule();
+rule.minute = 59;
+
+var j = schedule.scheduleJob(rule, function(){
   asynMgs();
   sendMgsGenK();
 });
