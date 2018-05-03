@@ -18,7 +18,7 @@ var title_news;
 
 var schedule = require('node-schedule');
 
-var j = schedule.scheduleJob('30 * * * * *', function(){
+var j = schedule.scheduleJob('1 * * * * *', function(){
   asynMgs();
 });
 
