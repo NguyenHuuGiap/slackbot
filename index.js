@@ -1,14 +1,16 @@
 pry = require('pryjs');
-
+var request = require('request');
+const cheerio = require('cheerio');
 const { RTMClient } = require('@slack/client');
-const token = 'xoxb-357272516532-SyviQIXCOLBYNu3nELRgxoCr'
+const token = 'xoxb-357272516532-zOsWnXyEhKtEZeELdP91fA4t'
 
 const rtm = new RTMClient(token);
 rtm.start();
 
-const channelId = 'CAJGFDYDV'
+const channelId = 'CA78Y9Y1E'
 
 var Parser = require('rss-parser');
+var htmlToJson = require('html-to-json');
 var parser = new Parser();
 
 var options = 'https://vnexpress.net/rss/tin-moi-nhat.rss';
@@ -18,8 +20,9 @@ var title_news;
 
 var schedule = require('node-schedule');
 
-var j = schedule.scheduleJob('1 * * * * *', function(){
+var j = schedule.scheduleJob('30 * * * * *', function(){
   asynMgs();
+  sendMgsGenK();
 });
 
 function asynMgs() {
@@ -27,14 +30,24 @@ function asynMgs() {
     let feed = await parser.parseURL(options);
     title_news = feed.title;
     news = feed.items[0];
-    sendMgsSlack();
+    sendMgsSlack(news.link);
   })();
 };
 
-function sendMgsSlack() {
-  rtm.sendMessage(news.link, channelId)
+function sendMgsSlack(link) {
+  rtm.sendMessage(link, channelId)
     .then((res) => {
-      console.log('Message sent: ' + title_news);
+      console.log('Message sent: ' + link);
     })
     .catch(console.error);
 };
+
+function sendMgsGenK() {
+  request('http://genk.vn', function (error, response, html) {
+    if (!error && response.statusCode == 200) {
+      var $ = cheerio.load(html);
+      var links = ("http://genk.vn" + $('.knswli-title a')[0].attribs.href)
+      sendMgsSlack(links);
+    }
+  });
+}
