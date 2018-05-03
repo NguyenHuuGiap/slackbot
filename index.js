@@ -2,7 +2,7 @@ pry = require('pryjs');
 var request = require('request');
 const cheerio = require('cheerio');
 const { RTMClient } = require('@slack/client');
-const token = 'xoxb-357272516532-xADG2MDYUAeGcJgw1ym3B3N8'
+const token = 'xoxb-357272516532-n9NmF27RV18rmXSaE05G6g0d'
 
 const rtm = new RTMClient(token);
 rtm.start();
