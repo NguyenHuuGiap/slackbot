@@ -2,12 +2,12 @@ pry = require('pryjs');
 var request = require('request');
 const cheerio = require('cheerio');
 const { RTMClient } = require('@slack/client');
-const token = 'xoxb-357272516532-n9NmF27RV18rmXSaE05G6g0d'
+const token = process.env.tokenSlack;
 
 const rtm = new RTMClient(token);
 rtm.start();
 
-const channelId = 'CA78Y9Y1E'
+const channelId = process.env.channelID;
 
 var Parser = require('rss-parser');
 var htmlToJson = require('html-to-json');
