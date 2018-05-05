@@ -21,7 +21,7 @@ var title_news;
 var schedule = require('node-schedule');
 
 var rule = new schedule.RecurrenceRule();
-rule.minute = 59;
+rule.minute = 1;
 
 var j = schedule.scheduleJob(rule, function(){
   asynMgs();
